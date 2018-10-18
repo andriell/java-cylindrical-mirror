@@ -15,6 +15,11 @@ public class MathPlaneLineTest {
         Line line = new Line(new Point(0, 0, 0), MathVector.normalize(new Vector(1, 1, 0)));
         Plane plane = new Plane(new Point(0, 0, 0), new Vector(0, 1, 0));
         Line reflection = MathPlaneLine.reflection(plane, line);
+
+        System.out.println(line);
+        System.out.println(plane);
+        System.out.println(reflection);
+
         assertTrue(Math.abs(MathVector.dotProduct(reflection.p, line.p)) < 0.000000001);
     }
 
