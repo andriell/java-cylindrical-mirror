@@ -37,7 +37,7 @@ public class MathPlaneLine {
             // Линия лежит в плоскости или параллельна плоскости
             return null;
         }
-        reflection.p = MathVector.dif(MathVector.normalize(plane.n, 1 / MathVector.cos(plane.n, line.p)), MathVector.normalize(line.p));
+        reflection.p = MathVector.dif(MathVector.normalize(plane.n, 2 * MathVector.cos(plane.n, line.p)), MathVector.normalize(line.p));
         return reflection;
     }
 }
