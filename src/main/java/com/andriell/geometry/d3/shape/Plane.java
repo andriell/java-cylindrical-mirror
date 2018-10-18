@@ -7,6 +7,14 @@ public class Plane {
     // перпендикулярный вектор
     public Vector n = new Vector();
 
+    public Plane() {
+    }
+
+    public Plane(Point m, Vector n) {
+        this.m = m;
+        this.n = n;
+    }
+
     @Override
     public String toString() {
         return "Plane{" +

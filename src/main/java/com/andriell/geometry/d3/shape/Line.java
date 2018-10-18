@@ -8,11 +8,19 @@ public class Line {
     // направляющий вектор
     public Vector p = new Vector();
 
+    public Line() {
+    }
+
+    public Line(Point m, Vector p) {
+        this.m = m;
+        this.p = p;
+    }
+
     @Override
     public String toString() {
         return "Line{" +
                 "m=" + m +
-                ", n=" + p +
+                ", p=" + p +
                 '}';
     }
 }

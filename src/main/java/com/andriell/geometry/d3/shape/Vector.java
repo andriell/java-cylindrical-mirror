@@ -14,19 +14,6 @@ public class Vector {
         this.z = z;
     }
 
-    public double getLength() {
-        return Math.sqrt(x * x + y * y + z * z);
-    }
-
-    public void normalize() {
-        double l = getLength();
-        if (l > 0d) {
-            x = x / l;
-            y = y / l;
-            z = z / l;
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

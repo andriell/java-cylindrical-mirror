@@ -8,40 +8,40 @@ public class MathVector {
      * Сумма векторов
      * @param v1 Vector
      * @param v2 Vector
-     * @return Point
+     * @return Vector
      */
-    public static Point sum(Vector v1, Vector v2) {
-        return new Point(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+    public static Vector sum(Vector v1, Vector v2) {
+        return new Vector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
     }
 
     /**
      * Сумма вектора и точки
      * @param v Vector
      * @param p Point
-     * @return Point
+     * @return Vector
      */
-    public static Point sum(Vector v, Point p) {
-        return new Point(p.x + v.x, p.y + v.y, p.z + v.z);
+    public static Vector sum(Vector v, Point p) {
+        return new Vector(p.x + v.x, p.y + v.y, p.z + v.z);
     }
 
     /**
      * Разность векторов
      * @param v1 Vector
      * @param v2 Vector
-     * @return Point
+     * @return Vector
      */
-    public static Point dif(Vector v1, Vector v2) {
-        return new Point(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+    public static Vector dif(Vector v1, Vector v2) {
+        return new Vector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
     }
 
     /**
      * Разность вектора и точки
      * @param v Vector
      * @param p Point
-     * @return Point
+     * @return Vector
      */
-    public static Point dif(Vector v, Point p) {
-        return new Point(p.x - v.x, p.y - v.y, p.z - v.z);
+    public static Vector dif(Vector v, Point p) {
+        return new Vector(p.x - v.x, p.y - v.y, p.z - v.z);
     }
 
     /**
@@ -51,7 +51,7 @@ public class MathVector {
      * @return double
      */
     public static double dotProduct(Vector v1, Vector v2) {
-        return v1.x + v2.x + v1.y * v2.y + v1.z * v2.z;
+        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
 
     /**
@@ -60,8 +60,53 @@ public class MathVector {
      * @param d double
      * @return Point p
      */
-    public static Point product(Vector v, double d) {
-        return new Point(v.x * d, v.y * d, v.z * d);
+    public static Vector product(Vector v, double d) {
+        return new Vector(v.x * d, v.y * d, v.z * d);
+    }
+
+    /**
+     * Модуль вектора, она же длинна
+     * @param v Vector
+     * @return double
+     */
+    public static double module(Vector v) {
+        return Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    }
+
+    /**
+     * Нормализация вектора
+     * @param v Vector
+     * @return Vector
+     */
+    public static Vector normalize(Vector v) {
+        double l = module(v);
+        if (l <= 0) {
+            return null;
+        }
+        return new Vector(v.x / l, v.y / l, v.z / l);
+    }
+
+    /**
+     * Нормализация вектора и умножение на d
+     * @param v Vector
+     * @return Vector
+     */
+    public static Vector normalize(Vector v, double d) {
+        double l = module(v);
+        if (l <= 0) {
+            return null;
+        }
+        return new Vector(v.x / l * d, v.y / l * d, v.z / l * d);
+    }
+
+    /**
+     * Косинус угла между векторами
+     * @param v1 Vector
+     * @param v2 Vector
+     * @return double
+     */
+    public static double cos(Vector v1, Vector v2) {
+        return dotProduct(v1, v2) / (module(v1) * module(v2));
     }
 
     /**
