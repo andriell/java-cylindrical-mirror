@@ -3,7 +3,7 @@ package com.andriell.geometry.d3.shape;
 public class Vector {
     public double x = 0;
     public double y = 0;
-    public double z = 0;
+    public double z = 1;
 
     public Vector() {
     }

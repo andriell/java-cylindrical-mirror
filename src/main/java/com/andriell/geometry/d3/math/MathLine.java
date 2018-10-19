@@ -14,7 +14,18 @@ public class MathLine {
      * @return Line
      */
     public static Line getLine(Point p1, Point p2) {
-        return new Line(p1, new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z));
+        return new Line(p1, MathVector.getVector(p1, p2));
+    }
+
+    /**
+     * Получить прямую проходящую через две точки и нормализовать вектор
+     *
+     * @param p1 Point
+     * @param p2 Point
+     * @return Line
+     */
+    public static Line getLine(Point p1, Point p2, double d) {
+        return new Line(p1, MathVector.getVector(p1, p2, d));
     }
 
     /**
