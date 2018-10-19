@@ -22,7 +22,6 @@ public class CylindricalMirrorTest {
             }
             System.out.println();
         }
-
     }
 
     @Test
