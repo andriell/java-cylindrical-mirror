@@ -13,6 +13,7 @@ import com.andriell.geometry.d3.shape.Vector;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -111,11 +112,15 @@ public class CylindricalMirror {
                 imageOutput.setRGB(x, y, Color.WHITE.getRGB());
             }
         }
+
         for (int x = 0; x < matrix.length; x++) {
             for (int y = 0; y < matrix[x].length; y++) {
                 imageOutput.setRGB(matrix[x][y].x, matrix[x][y].y, image.getRGB(x, y));
             }
         }
+        Graphics2D g = (Graphics2D)imageOutput.getGraphics();
+        g.setColor(Color.GREEN);
+        g.draw(new Ellipse2D.Float((int) (cylinder.x - cylinder.r), (int) (cylinder.y - cylinder.r), (int) (cylinder.r * 2), (int) (cylinder.r * 2)));
 
         ImageIO.write(imageOutput, "png", file);
     }
