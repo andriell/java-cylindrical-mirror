@@ -5,6 +5,16 @@ import com.andriell.geometry.d3.shape.Vector;
 
 public class MathPoint {
     /**
+     * Получить вектор по двум точкам
+     * @param p1 Point
+     * @param p2 Point
+     * @return Vector
+     */
+    public static Vector getVector(Point p1, Point p2) {
+        return new Vector(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
+    }
+
+    /**
      * Сумма точек
      * @param p1 Point
      * @param p2 Point
