@@ -48,7 +48,7 @@ public class CylindricalMirror {
         double a = Math.pow(l.p.x, 2) + Math.pow(l.p.y, 2);
         double b = 2 * (l.p.x * (l.m.x - cylinder.x) + l.p.y * (l.m.y - cylinder.y));
         double c = Math.pow(l.m.x - cylinder.x, 2) + Math.pow(l.m.y - cylinder.y, 2) - Math.pow(cylinder.r, 2);
-        double t = (-1 * Math.sqrt(b * b - 4 * a * c) - b) / (2 * a);
+        double t = (Math.sqrt(b * b - 4 * a * c) - b) / (2 * a);
         Point p = MathLine.getPoint(l, t);
         return new Plane(p, MathVector.getVector(new Point(p.x, p.y, 0), new Point(l.m.x, l.m.y, 0), 1));
     }
@@ -57,19 +57,25 @@ public class CylindricalMirror {
         Point2d[][] r = new Point2d[imageW][];
         for (int y = 0; y < imageW; y++) {
             r[y] = new Point2d[imageH];
-            Line lineEay0 = MathLine.getLine(pointEay,  new Point(0, y, 0), 1);
+            Line lineEay0 = MathLine.getLine(new Point(0, y, 0), pointEay, 1);
             Plane planeCylinder = getPlane(lineEay0);
+            //System.out.print(y);
+            //System.out.print(planeCylinder);
             for (int z = 0; z < imageH; z++) {
                 Point pointOnImage = new Point(0, y, z);
-                Line lineEay = MathLine.getLine(pointEay, pointOnImage);
+                Line lineEay = MathLine.getLine(pointOnImage, pointEay, 1);
                 Line lineReflection = MathPlaneLine.reflection(planeCylinder, lineEay);
                 Point pointOnGround = MathPlaneLine.intersection(planeGround, lineReflection);
-
-                System.out.print(pointOnImage);
-                System.out.println(pointOnGround);
                 r[y][z] = new Point2d(Math.round(pointOnGround.x), Math.round(pointOnGround.y));
-                System.out.println("{x=" + y + ", y=" + z + "} => " + r[y][z]);
+
+                //System.out.print(pointOnImage);
+                //System.out.print(lineEay);
+                //System.out.print(lineReflection);
+                //System.out.print(pointOnGround);
+                //System.out.print("{x=" + y + ", y=" + z + "} => " + r[y][z]);
+                //System.out.println();
             }
+            //System.out.println();
         }
         return r;
     }
