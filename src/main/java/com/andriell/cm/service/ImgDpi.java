@@ -26,10 +26,17 @@ public class ImgDpi {
     }
 
     public static double dpi(double mm, int px) {
-        return ((double) px) / mm / 25.4;
+        return dpi((double) px, mm);
     }
 
-    public static BufferedImage resize(BufferedImage img, int newW, int newH) {
+    public static double dpi(double mm, double px) {
+        return px / (mm / 25.4);
+    }
+
+
+    public static BufferedImage resize(BufferedImage img, double d) {
+        int newW = (int) Math.round(img.getWidth() * d) + 1;
+        int newH = (int) Math.round(img.getHeight() * d) + 1;
         Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
         BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = dimg.createGraphics();
@@ -38,13 +45,13 @@ public class ImgDpi {
         return dimg;
     }
 
-    public void addImage(BufferedImage img, double dpi) {
-
+    public void addImage(BufferedImage img, double imgDpi) {
+        BufferedImage imgResized = resize(img, dpi / imgDpi);
 
         Graphics2D d = (Graphics2D) image.getGraphics();
         d.setColor(Color.WHITE);
         d.fillRect(0, 0, image.getWidth(), image.getHeight());
-        d.drawImage(img, (image.getWidth() - img.getWidth()) / 2, (image.getHeight() - img.getHeight()) / 2,  null);
+        d.drawImage(imgResized, (image.getWidth() - imgResized.getWidth()) / 2, (image.getHeight() - imgResized.getHeight()) / 2,  null);
     }
 
     public void save(File file) throws IOException {

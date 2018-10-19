@@ -1,5 +1,6 @@
 package com.andriell.cm.math;
 
+import com.andriell.cm.service.ImgDpi;
 import com.andriell.cm.shape.CylinderZ;
 import com.andriell.cm.shape.PlaneImageInterface;
 import com.andriell.cm.shape.Point2d;
@@ -134,12 +135,15 @@ public class CylindricalMirror {
 
         //ImageIO.write(image, "png", file);
 
-        double dpi = cylinder.r / (r / 25.4);
-        BufferedImage imageOutput = new BufferedImage((int) Math.round(listHeight / 25.4 * dpi), (int) Math.round(listWidth / 25.4 * dpi), BufferedImage.TYPE_INT_RGB);
-        Graphics2D gOutput = (Graphics2D) imageOutput.getGraphics();
-        gOutput.setColor(Color.WHITE);
-        gOutput.fillRect(0, 0, imageOutput.getWidth(), imageOutput.getHeight());
-        gOutput.drawImage(image, (imageOutput.getWidth() - image.getWidth()) / 2, (imageOutput.getHeight() - image.getHeight()) / 2, null);
-        ImageIO.write(imageOutput, "png", file);
+        ImgDpi imgDpi = new ImgDpi();
+        imgDpi.addImage(image, ImgDpi.dpi(r, cylinder.r));
+        imgDpi.save(file);
+        // double dpi = cylinder.r / (r / 25.4);
+        // BufferedImage imageOutput = new BufferedImage((int) Math.round(listHeight / 25.4 * dpi), (int) Math.round(listWidth / 25.4 * dpi), BufferedImage.TYPE_INT_RGB);
+        // Graphics2D gOutput = (Graphics2D) imageOutput.getGraphics();
+        // gOutput.setColor(Color.WHITE);
+        // gOutput.fillRect(0, 0, imageOutput.getWidth(), imageOutput.getHeight());
+        // gOutput.drawImage(image, (imageOutput.getWidth() - image.getWidth()) / 2, (imageOutput.getHeight() - image.getHeight()) / 2, null);
+        // ImageIO.write(imageOutput, "png", file);
     }
 }
