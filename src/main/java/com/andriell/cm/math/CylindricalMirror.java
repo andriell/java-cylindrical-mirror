@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 public class CylindricalMirror {
     private Point pointEay;
     private CylinderZ cylinder;
-    private Plane planeGround = new Plane(new Point(1, 1, 1), new Vector(0, 0, 1));
+    private Plane planeGround = new Plane(new Point(0, 0, 0), new Vector(0, 0, 1));
     private int imageW = 10;
     private int imageH = 10;
 
@@ -48,9 +48,9 @@ public class CylindricalMirror {
         double a = Math.pow(l.p.x, 2) + Math.pow(l.p.y, 2);
         double b = 2 * (l.p.x * (l.m.x - cylinder.x) + l.p.y * (l.m.y - cylinder.y));
         double c = Math.pow(l.m.x - cylinder.x, 2) + Math.pow(l.m.y - cylinder.y, 2) - Math.pow(cylinder.r, 2);
-        double t = (Math.sqrt(b * b - 4 * a * c) - b) / (2 * a);
+        double t = (-1 * Math.sqrt(b * b - 4 * a * c) - b) / (2 * a);
         Point p = MathLine.getPoint(l, t);
-        return new Plane(p, MathVector.getVector(p, l.m, 1));
+        return new Plane(p, MathVector.getVector(new Point(p.x, p.y, 0), new Point(l.m.x, l.m.y, 0), 1));
     }
 
     public Point2d[][] matrix() {

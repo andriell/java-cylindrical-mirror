@@ -18,7 +18,7 @@ public class MathPlaneLine {
             // Линия лежит в плоскости или параллельна плоскости
             return null;
         }
-        double t = MathVectorPoint.dotProduct(plane.n, MathPoint.dif(plane.m, line.m)) / divider;
+        double t = MathVector.dotProduct(plane.n, MathVector.getVector(line.m, plane.m)) / divider;
         return MathLine.getPoint(line, t);
     }
 
@@ -29,7 +29,7 @@ public class MathPlaneLine {
      *
      * @param plane Plane
      * @param line  Line
-     * @return Line
+     * @return Line|null
      */
     public static Line reflection(Plane plane, Line line) {
         Line reflection = new Line();

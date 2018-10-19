@@ -12,7 +12,7 @@ public class MathVector {
      * @return Vector
      */
     public static Vector getVector(Point p1, Point p2) {
-        return new Vector(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
+        return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
     }
 
     /**
@@ -23,11 +23,11 @@ public class MathVector {
      * @return Vector
      */
     public static Vector getVector(Point p1, Point p2, double d) {
-        double l = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2) + Math.pow(p1.z - p2.z, 2));
+        double l = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2));
         if (l <= 0) {
             return null;
         }
-        return new Vector((p1.x - p2.x) / l * d, (p1.y - p2.y) / l * d, (p1.z - p2.z) / l * d);
+        return new Vector((p2.x - p1.x) / l * d, (p2.y - p1.y) / l * d, (p2.z - p1.z) / l * d);
     }
 
     /**
