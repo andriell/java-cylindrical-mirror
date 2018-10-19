@@ -9,13 +9,24 @@ public class PlaneImage implements PlaneImageInterface {
     private BufferedImage image;
 
     public PlaneImage(int w, int h) {
-        image = new BufferedImage(w, h, BufferedImage.TYPE_4BYTE_ABGR);
+        image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
     }
 
     public PlaneImage(File file) throws IOException {
         image = ImageIO.read(file);;
     }
 
+    @Override
+    public int getWidth() {
+        return image.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return image.getHeight();
+    }
+
+    @Override
     public int getRGB(int x, int y) {
         int rgb =  image.getRGB(x,y);
         int red   = (rgb & 0x00ff0000) >> 16;
@@ -25,6 +36,4 @@ public class PlaneImage implements PlaneImageInterface {
         System.out.println("x=" + x + ", y=" + y + " rgb = " + String.format("0x%08X", rgb));
         return rgb;
     }
-
-
 }

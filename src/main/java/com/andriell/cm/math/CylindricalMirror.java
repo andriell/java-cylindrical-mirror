@@ -1,6 +1,7 @@
 package com.andriell.cm.math;
 
 import com.andriell.cm.shape.CylinderZ;
+import com.andriell.cm.shape.PlaneImageInterface;
 import com.andriell.cm.shape.Point2d;
 import com.andriell.geometry.d3.math.MathLine;
 import com.andriell.geometry.d3.math.MathPlaneLine;
@@ -10,26 +11,28 @@ import com.andriell.geometry.d3.shape.Plane;
 import com.andriell.geometry.d3.shape.Point;
 import com.andriell.geometry.d3.shape.Vector;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class CylindricalMirror {
     private Point pointEay;
     private CylinderZ cylinder;
     private Plane planeGround = new Plane(new Point(0, 0, 0), new Vector(0, 0, 1));
-    private int imageW = 500;
-    private int imageH = 500;
+    private PlaneImageInterface image;
 
-    public CylindricalMirror() {
-
+    public CylindricalMirror(PlaneImageInterface image) {
+        this.image = image;
+        this.cylinder = new CylinderZ(0, 0, image.getWidth());
     }
 
     public void setPointEay(Point pointEay) {
         this.pointEay = pointEay;
     }
 
-    public void setCylinder(CylinderZ cylinder) {
-        this.cylinder = cylinder;
-    }
 
     /**
      * Получить плоскость на цилиндре с клоторой соприкосается линия
@@ -54,11 +57,14 @@ public class CylindricalMirror {
     }
 
     public Point2d[][] matrix() {
+        int imageW = image.getWidth();
+        int imageH = image.getHeight();
         Point2d[][] r = new Point2d[imageW][];
         for (int y = 0; y < imageW; y++) {
             r[y] = new Point2d[imageH];
             Line lineEay0 = MathLine.getLine(new Point(0, y, 0), pointEay, 1);
             Plane planeCylinder = getPlane(lineEay0);
+
             //System.out.print(y);
             //System.out.print(planeCylinder);
             for (int z = 0; z < imageH; z++) {
@@ -78,5 +84,36 @@ public class CylindricalMirror {
             //System.out.println();
         }
         return r;
+    }
+
+    public void writeImage(File file) throws IOException {
+        Point2d[][] matrix = matrix();
+        int minX = 0;
+        int maxX = Integer.MIN_VALUE;
+        int minY = 0;
+        int maxY = Integer.MIN_VALUE;
+
+        for (int x = 0; x < matrix.length; x++) {
+            for (int y = 0; y < matrix[x].length; y++) {
+                minX = Math.min(minX, matrix[x][y].x);
+                minY = Math.min(minY, matrix[x][y].y);
+                maxX = Math.max(maxX, matrix[x][y].x);
+                maxY = Math.max(maxY, matrix[x][y].y);
+            }
+        }
+
+        BufferedImage imageOutput = new BufferedImage(maxX - minX + 1, maxY - minY + 1, BufferedImage.TYPE_INT_RGB);
+        for (int x = 0; x < imageOutput.getWidth(); x++) {
+            for (int y = 0; y < imageOutput.getHeight(); y++) {
+                imageOutput.setRGB(x, y, Color.WHITE.getRGB());
+            }
+        }
+        for (int x = 0; x < matrix.length; x++) {
+            for (int y = 0; y < matrix[x].length; y++) {
+                imageOutput.setRGB(matrix[x][y].x, matrix[x][y].y, image.getRGB(x, y));
+            }
+        }
+
+        ImageIO.write(imageOutput, "png", file);
     }
 }
