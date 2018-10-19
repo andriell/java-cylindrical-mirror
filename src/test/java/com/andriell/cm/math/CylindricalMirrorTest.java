@@ -26,7 +26,7 @@ public class CylindricalMirrorTest {
 
     @Test
     public void writeImage() throws Exception {
-        CylindricalMirror mirror = new CylindricalMirror(new PlaneImageCell(1000, 1000, 100));
+        CylindricalMirror mirror = new CylindricalMirror(new PlaneImageCell(1001, 1001, 100));
         mirror.setPointEay(new Point(100000, 0, 100000));
         mirror.writeImage(new File("CylindricalMirror.png"));
     }

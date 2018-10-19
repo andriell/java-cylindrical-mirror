@@ -13,7 +13,6 @@ import com.andriell.geometry.d3.shape.Vector;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +25,11 @@ public class CylindricalMirror {
 
     public CylindricalMirror(PlaneImageInterface image) {
         this.image = image;
-        this.cylinder = new CylinderZ(0, 0, image.getWidth());
+        int imageWidth = image.getWidth();
+        if (imageWidth % 2 != 0) {
+            imageWidth++;
+        }
+        this.cylinder = new CylinderZ(0, imageWidth / 2, imageWidth / 2 + 1);
     }
 
     public void setPointEay(Point pointEay) {
