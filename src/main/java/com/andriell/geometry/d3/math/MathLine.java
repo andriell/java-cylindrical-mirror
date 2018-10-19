@@ -8,6 +8,7 @@ public class MathLine {
 
     /**
      * Получить прямую проходящую через две точки
+     *
      * @param p1 Point
      * @param p2 Point
      * @return Line
@@ -18,8 +19,9 @@ public class MathLine {
 
     /**
      * Возвращает точку на прямой заданной в виде параметрического уравнения
+     *
      * @param line Line
-     * @param t double
+     * @param t    double
      * @return Point
      */
     public static Point getPoint(Line line, double t) {

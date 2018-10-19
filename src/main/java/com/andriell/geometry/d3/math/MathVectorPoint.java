@@ -6,6 +6,7 @@ import com.andriell.geometry.d3.shape.Vector;
 public class MathVectorPoint {
     /**
      * Скалярное произведение точки и вектора
+     *
      * @param p Vector
      * @param v Vector
      * @return double
@@ -16,6 +17,7 @@ public class MathVectorPoint {
 
     /**
      * Скалярное произведение точки и вектора
+     *
      * @param p Vector
      * @param v Vector
      * @return double

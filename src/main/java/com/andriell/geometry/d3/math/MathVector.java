@@ -6,6 +6,7 @@ import com.andriell.geometry.d3.shape.Vector;
 public class MathVector {
     /**
      * Сумма векторов
+     *
      * @param v1 Vector
      * @param v2 Vector
      * @return Vector
@@ -16,6 +17,7 @@ public class MathVector {
 
     /**
      * Сумма вектора и точки
+     *
      * @param v Vector
      * @param p Point
      * @return Vector
@@ -26,6 +28,7 @@ public class MathVector {
 
     /**
      * Разность векторов
+     *
      * @param v1 Vector
      * @param v2 Vector
      * @return Vector
@@ -36,6 +39,7 @@ public class MathVector {
 
     /**
      * Разность вектора и точки
+     *
      * @param v Vector
      * @param p Point
      * @return Vector
@@ -46,6 +50,7 @@ public class MathVector {
 
     /**
      * Скалярное произведение
+     *
      * @param v1 Vector
      * @param v2 Vector
      * @return double
@@ -56,6 +61,7 @@ public class MathVector {
 
     /**
      * Умножение вектора на число
+     *
      * @param v Vector
      * @param d double
      * @return Point p
@@ -66,6 +72,7 @@ public class MathVector {
 
     /**
      * Модуль вектора, она же длинна
+     *
      * @param v Vector
      * @return double
      */
@@ -75,6 +82,7 @@ public class MathVector {
 
     /**
      * Нормализация вектора
+     *
      * @param v Vector
      * @return Vector
      */
@@ -88,6 +96,7 @@ public class MathVector {
 
     /**
      * Нормализация вектора и умножение на d
+     *
      * @param v Vector
      * @return Vector
      */
@@ -101,6 +110,7 @@ public class MathVector {
 
     /**
      * Косинус угла между векторами
+     *
      * @param v1 Vector
      * @param v2 Vector
      * @return double
@@ -111,6 +121,7 @@ public class MathVector {
 
     /**
      * Преобразует вектор в точку
+     *
      * @param v Vector
      * @return Point
      */

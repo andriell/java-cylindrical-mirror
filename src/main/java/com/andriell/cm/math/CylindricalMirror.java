@@ -3,6 +3,7 @@ package com.andriell.cm.math;
 import com.andriell.cm.shape.CylinderZ;
 import com.andriell.geometry.d3.math.MathLine;
 import com.andriell.geometry.d3.math.MathPoint;
+import com.andriell.geometry.d3.math.MathVector;
 import com.andriell.geometry.d3.shape.Line;
 import com.andriell.geometry.d3.shape.Plane;
 import com.andriell.geometry.d3.shape.Point;
@@ -30,7 +31,7 @@ public class CylindricalMirror {
         double c = Math.pow(l.m.x - cylinder.x, 2) + Math.pow(l.m.y - cylinder.y, 2) + Math.pow(cylinder.r, 2);
         double t = (Math.sqrt(b * b - 4 * a * c) - b) / (2 * a);
         Point p = MathLine.getPoint(l, t);
-        return new Plane(p, MathPoint.getVector(p, l.m));
+        return new Plane(p, MathPoint.getVector(p, l.m, 1));
     }
 
 
