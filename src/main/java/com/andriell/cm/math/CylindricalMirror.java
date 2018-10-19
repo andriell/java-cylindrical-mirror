@@ -24,6 +24,11 @@ public class CylindricalMirror {
     private Plane planeGround = new Plane(new Point(0, 0, 0), new Vector(0, 0, 1));
     private PlaneImageInterface image;
 
+    private double dpi = 300;
+    private double listWidth = 210;
+    private double listHeight = 297;
+    private double r = 25;
+
     public CylindricalMirror(PlaneImageInterface image) {
         this.image = image;
         int imageWidth = image.getWidth();
@@ -106,22 +111,31 @@ public class CylindricalMirror {
             }
         }
 
-        BufferedImage imageOutput = new BufferedImage(maxX - minX + 1, maxY - minY + 1, BufferedImage.TYPE_INT_RGB);
-        for (int x = 0; x < imageOutput.getWidth(); x++) {
-            for (int y = 0; y < imageOutput.getHeight(); y++) {
-                imageOutput.setRGB(x, y, Color.WHITE.getRGB());
-            }
-        }
+        BufferedImage image = new BufferedImage(maxX - minX + 1, maxY - minY + 1, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = (Graphics2D)image.getGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, image.getWidth(), image.getHeight());
+        g.setColor(Color.WHITE);
+        g.fillRect(1, 1, image.getWidth() - 2, image.getHeight() - 2);
 
         for (int x = 0; x < matrix.length; x++) {
             for (int y = 0; y < matrix[x].length; y++) {
-                imageOutput.setRGB(matrix[x][y].x, matrix[x][y].y, image.getRGB(x, y));
+                image.setRGB(matrix[x][y].x, matrix[x][y].y, this.image.getRGB(x, y));
             }
         }
-        Graphics2D g = (Graphics2D)imageOutput.getGraphics();
+
         g.setColor(Color.GREEN);
         g.draw(new Ellipse2D.Float((int) (cylinder.x - cylinder.r), (int) (cylinder.y - cylinder.r), (int) (cylinder.r * 2), (int) (cylinder.r * 2)));
 
+        double dpi = cylinder.r / (r / 25.4);
+        BufferedImage imageOutput = new BufferedImage((int) Math.round(listHeight / 25.4 * dpi), (int) Math.round(listWidth / 25.4 * dpi), BufferedImage.TYPE_INT_RGB);
+
+        Graphics2D gOutput = (Graphics2D)imageOutput.getGraphics();
+        gOutput.setColor(Color.WHITE);
+        gOutput.fillRect(0, 0, imageOutput.getWidth(), imageOutput.getHeight());
+        gOutput.drawImage(image, (imageOutput.getWidth() - image.getWidth()) / 2, (imageOutput.getHeight() - image.getHeight()) / 2,  null);
         ImageIO.write(imageOutput, "png", file);
     }
+
+
 }
