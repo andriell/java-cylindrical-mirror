@@ -11,8 +11,8 @@ public class CylindricalMirrorTest {
     @Test
     public void matrix() {
         CylindricalMirror mirror = new CylindricalMirror();
-        mirror.setCylinder(new CylinderZ(0, 0, 10));
-        mirror.setPointEay(new Point(100, 0, 100));
+        mirror.setCylinder(new CylinderZ(0, 0, 500));
+        mirror.setPointEay(new Point(10000, 0, 10000));
         Point2d[][] matrix = mirror.matrix();
         for (int x = 0; x < matrix.length; x++) {
             for (int y = 0; y < matrix[x].length; y++) {

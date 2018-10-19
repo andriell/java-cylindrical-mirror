@@ -16,8 +16,8 @@ public class CylindricalMirror {
     private Point pointEay;
     private CylinderZ cylinder;
     private Plane planeGround = new Plane(new Point(0, 0, 0), new Vector(0, 0, 1));
-    private int imageW = 10;
-    private int imageH = 10;
+    private int imageW = 500;
+    private int imageH = 500;
 
     public CylindricalMirror() {
 
