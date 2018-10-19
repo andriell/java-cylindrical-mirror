@@ -45,6 +45,7 @@ public class CylindricalMirror {
 
     /**
      * Получить плоскость на цилиндре с клоторой соприкосается линия
+     *
      * @param l Line
      * @return Plane
      */
@@ -62,7 +63,7 @@ public class CylindricalMirror {
         double c = Math.pow(l.m.x - cylinder.x, 2) + Math.pow(l.m.y - cylinder.y, 2) - Math.pow(cylinder.r, 2);
         double t = (Math.sqrt(b * b - 4 * a * c) - b) / (2 * a);
         Point p = MathLine.getPoint(l, t);
-        return new Plane(p, MathVector.getVector(new Point(p.x, p.y, 0), new Point(l.m.x, l.m.y, 0), 1));
+        return new Plane(p, MathVector.getVector(new Point(p.x, p.y, 0), new Point(cylinder.x, cylinder.y, 0), 1));
     }
 
     public Point2d[][] matrix() {
@@ -74,8 +75,8 @@ public class CylindricalMirror {
             Line lineEay0 = MathLine.getLine(new Point(0, y, 0), pointEay, 1);
             Plane planeCylinder = getPlane(lineEay0);
 
-            //System.out.print(y);
-            //System.out.print(planeCylinder);
+            System.out.print(y);
+            System.out.print(planeCylinder);
             for (int z = 0; z < imageH; z++) {
                 Point pointOnImage = new Point(0, y, z);
                 Line lineEay = MathLine.getLine(pointOnImage, pointEay, 1);
@@ -90,16 +91,16 @@ public class CylindricalMirror {
                 //System.out.print("{x=" + y + ", y=" + z + "} => " + r[y][z]);
                 //System.out.println();
             }
-            //System.out.println();
+            System.out.println();
         }
         return r;
     }
 
     public void writeImage(File file) throws IOException {
         Point2d[][] matrix = matrix();
-        int minX = 0;
+        int minX = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
-        int minY = 0;
+        int minY = Integer.MAX_VALUE;
         int maxY = Integer.MIN_VALUE;
 
         for (int x = 0; x < matrix.length; x++) {
@@ -112,7 +113,7 @@ public class CylindricalMirror {
         }
 
         BufferedImage image = new BufferedImage(maxX - minX + 1, maxY - minY + 1, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D)image.getGraphics();
+        Graphics2D g = (Graphics2D) image.getGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, image.getWidth(), image.getHeight());
         g.setColor(Color.WHITE);
@@ -120,22 +121,25 @@ public class CylindricalMirror {
 
         for (int x = 0; x < matrix.length; x++) {
             for (int y = 0; y < matrix[x].length; y++) {
-                image.setRGB(matrix[x][y].x, matrix[x][y].y, this.image.getRGB(x, y));
+                try {
+                    image.setRGB(maxX - matrix[x][y].x, maxY - matrix[x][y].y, this.image.getRGB(x, y));
+                } catch (Exception e) {
+                    System.err.println("x=" + x + " y=" + y);
+                }
             }
         }
 
         g.setColor(Color.GREEN);
-        g.draw(new Ellipse2D.Float((int) (cylinder.x - cylinder.r), (int) (cylinder.y - cylinder.r), (int) (cylinder.r * 2), (int) (cylinder.r * 2)));
+        g.draw(new Ellipse2D.Float((int) (maxX - cylinder.x - cylinder.r), (int) (maxY - cylinder.y - cylinder.r), (int) (cylinder.r * 2), (int) (cylinder.r * 2)));
+
+        //ImageIO.write(image, "png", file);
 
         double dpi = cylinder.r / (r / 25.4);
         BufferedImage imageOutput = new BufferedImage((int) Math.round(listHeight / 25.4 * dpi), (int) Math.round(listWidth / 25.4 * dpi), BufferedImage.TYPE_INT_RGB);
-
-        Graphics2D gOutput = (Graphics2D)imageOutput.getGraphics();
+        Graphics2D gOutput = (Graphics2D) imageOutput.getGraphics();
         gOutput.setColor(Color.WHITE);
         gOutput.fillRect(0, 0, imageOutput.getWidth(), imageOutput.getHeight());
-        gOutput.drawImage(image, (imageOutput.getWidth() - image.getWidth()) / 2, (imageOutput.getHeight() - image.getHeight()) / 2,  null);
+        gOutput.drawImage(image, (imageOutput.getWidth() - image.getWidth()) / 2, (imageOutput.getHeight() - image.getHeight()) / 2, null);
         ImageIO.write(imageOutput, "png", file);
     }
-
-
 }
