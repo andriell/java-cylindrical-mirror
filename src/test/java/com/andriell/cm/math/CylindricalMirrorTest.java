@@ -1,9 +1,6 @@
 package com.andriell.cm.math;
 
-import com.andriell.cm.shape.CylinderZ;
-import com.andriell.cm.shape.PlaneImage;
-import com.andriell.cm.shape.PlaneImageCell;
-import com.andriell.cm.shape.Point2d;
+import com.andriell.cm.shape.*;
 import com.andriell.geometry.d3.math.MathLine;
 import com.andriell.geometry.d3.shape.Point;
 import org.junit.Test;
@@ -48,16 +45,23 @@ public class CylindricalMirrorTest {
     }
 
     /*@Test
-    public void writeImage() throws Exception {
+    public void writeCell() throws Exception {
         CylindricalMirror mirror = new CylindricalMirror(new PlaneImageCell(1001, 1001, 100));
         mirror.setPointEay(new Point(1E7, 0, 1E7));
-        mirror.writeImage(new File("CylindricalMirror.png"));
+        mirror.writeImage(new File("PlaneImageCell.png"), true);
     }
 
     @Test
-    public void writeImage2() throws Exception {
+    public void writeCell2() throws Exception {
+        CylindricalMirror mirror = new CylindricalMirror(new PlaneImageCell2(1001, 1001));
+        mirror.setPointEay(new Point(1E7, 0, 1E7));
+        mirror.writeImage(new File("PlaneImageCell2.png"), true);
+    }
+
+    @Test
+    public void writeImage() throws Exception {
         CylindricalMirror mirror = new CylindricalMirror(new PlaneImage(new File("1.png")));
         mirror.setPointEay(new Point(1E7, 0, 1E7));
-        mirror.writeImage(new File("2.png"));
+        mirror.writeImage(new File("2.png"), true);
     }*/
 }

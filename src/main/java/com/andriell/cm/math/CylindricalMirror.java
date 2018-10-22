@@ -95,6 +95,10 @@ public class CylindricalMirror {
     }
 
     public void writeImage(File file) throws IOException {
+        writeImage(file, false);
+    }
+
+    public void writeImage(File file, boolean debug) throws IOException {
         Point2d[][] matrix = matrix();
         int minX = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
@@ -119,7 +123,28 @@ public class CylindricalMirror {
         for (int x = 0; x < matrix.length; x++) {
             for (int y = 0; y < matrix[x].length; y++) {
                 try {
-                    image.setRGB(maxX - matrix[x][y].x, maxY - matrix[x][y].y, this.image.getRGB(x, y));
+                    int xStart = maxX - matrix[x][y].x;
+                    int yStart = maxY - matrix[x][y].y;
+                    //image.setRGB(xStart, yStart, this.image.getRGB(x, y));
+                    int xEnd = xStart;
+                    int yEnd = yStart;
+                    if (x != matrix.length - 1 && y != matrix[x].length - 1) {
+                        xEnd = maxX - matrix[x + 1][y + 1].x - 1;
+                        yEnd = maxY - matrix[x + 1][y + 1].y - 1;
+                    } else {
+                        if (x != matrix.length - 1) {
+                            xEnd = maxX - matrix[x + 1][y].x - 1;
+                        }
+                        if (y != matrix[x].length - 1) {
+                            yEnd = maxY - matrix[x][y + 1].y - 1;
+                        }
+                    }
+                    //image.setRGB(xEnd, yEnd, this.image.getRGB(x, y));
+                    for (int x2 = Math.min(xStart, xEnd); x2 <= Math.max(xStart, xEnd); x2++) {
+                        for (int y2 = Math.min(yStart, yEnd); y2 <= Math.max(yStart, yEnd); y2++) {
+                            image.setRGB(x2, y2, this.image.getRGB(x, y));
+                        }
+                    }
                 } catch (Exception e) {
                     System.err.println("x=" + x + " y=" + y);
                 }
@@ -128,6 +153,10 @@ public class CylindricalMirror {
 
         g.setColor(Color.GREEN);
         g.draw(new Ellipse2D.Float((int) (maxX - cylinder.x - cylinder.r), (int) (maxY - cylinder.y - cylinder.r), (int) (cylinder.r * 2), (int) (cylinder.r * 2)));
+
+        if (debug) {
+            ImageIO.write(image, "png", new File(file.getAbsolutePath() + ".png"));
+        }
 
         imgDpi.addImage(image, ImgDpi.dpi(r, cylinder.r));
         imgDpi.save(file);
