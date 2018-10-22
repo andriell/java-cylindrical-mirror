@@ -1,6 +1,7 @@
 package com.andriell.cm.gui;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -9,7 +10,6 @@ public class MainFrame {
     private JFrame frame;
     private JFileChooser fileChooser;
     private File dataFile;
-
 
     private JPanel rootPanel;
     private JPanel topPanel;
@@ -35,6 +35,9 @@ public class MainFrame {
         frame.setContentPane(rootPanel);
 
         fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("IMAGE FILES (*.png)", "png");
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileFilter(filter);
 
         buttonFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
