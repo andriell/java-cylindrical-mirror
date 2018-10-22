@@ -24,11 +24,8 @@ public class CylindricalMirror {
     private CylinderZ cylinder;
     private Plane planeGround = new Plane(new Point(0, 0, 0), new Vector(0, 0, 1));
     private PlaneImageInterface image;
-
-    private double dpi = 300;
-    private double listWidth = 210;
-    private double listHeight = 297;
-    private double r = 25;
+    private ImgDpi imgDpi = new ImgDpi();;
+    private double r = 25.4;
 
     public CylindricalMirror(PlaneImageInterface image) {
         this.image = image;
@@ -76,10 +73,10 @@ public class CylindricalMirror {
             Line lineEay0 = MathLine.getLine(new Point(0, y, 0), pointEay, 1);
             Plane planeCylinder = getPlane(lineEay0);
 
-            System.out.print(y);
-            System.out.print(planeCylinder);
+            //System.out.print(y);
+            //System.out.print(planeCylinder);
             for (int z = 0; z < imageH; z++) {
-                Point pointOnImage = new Point(0, y, z);
+                Point pointOnImage = new Point(0, y, imageH - z - 1);
                 Line lineEay = MathLine.getLine(pointOnImage, pointEay, 1);
                 Line lineReflection = MathPlaneLine.reflection(planeCylinder, lineEay);
                 Point pointOnGround = MathPlaneLine.intersection(planeGround, lineReflection);
@@ -92,7 +89,7 @@ public class CylindricalMirror {
                 //System.out.print("{x=" + y + ", y=" + z + "} => " + r[y][z]);
                 //System.out.println();
             }
-            System.out.println();
+            //System.out.println();
         }
         return r;
     }
@@ -112,8 +109,7 @@ public class CylindricalMirror {
                 maxY = Math.max(maxY, matrix[x][y].y);
             }
         }
-
-        BufferedImage image = new BufferedImage(maxX - minX + 1, maxY - minY + 1, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(maxX - minX + 1, maxY - minY + 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, image.getWidth(), image.getHeight());
@@ -133,17 +129,19 @@ public class CylindricalMirror {
         g.setColor(Color.GREEN);
         g.draw(new Ellipse2D.Float((int) (maxX - cylinder.x - cylinder.r), (int) (maxY - cylinder.y - cylinder.r), (int) (cylinder.r * 2), (int) (cylinder.r * 2)));
 
-        //ImageIO.write(image, "png", file);
-
-        ImgDpi imgDpi = new ImgDpi();
         imgDpi.addImage(image, ImgDpi.dpi(r, cylinder.r));
         imgDpi.save(file);
-        // double dpi = cylinder.r / (r / 25.4);
-        // BufferedImage imageOutput = new BufferedImage((int) Math.round(listHeight / 25.4 * dpi), (int) Math.round(listWidth / 25.4 * dpi), BufferedImage.TYPE_INT_RGB);
-        // Graphics2D gOutput = (Graphics2D) imageOutput.getGraphics();
-        // gOutput.setColor(Color.WHITE);
-        // gOutput.fillRect(0, 0, imageOutput.getWidth(), imageOutput.getHeight());
-        // gOutput.drawImage(image, (imageOutput.getWidth() - image.getWidth()) / 2, (imageOutput.getHeight() - image.getHeight()) / 2, null);
-        // ImageIO.write(imageOutput, "png", file);
+    }
+
+    public ImgDpi getImgDpi() {
+        return imgDpi;
+    }
+
+    public double getR() {
+        return r;
+    }
+
+    public void setR(double r) {
+        this.r = r;
     }
 }

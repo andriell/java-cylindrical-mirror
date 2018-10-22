@@ -14,7 +14,7 @@ public class ImgDpi {
     private BufferedImage image;
 
     public ImgDpi() {
-        image = new BufferedImage(mm2px(width, dpi), mm2px(height, dpi), BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(mm2px(width, dpi), mm2px(height, dpi), BufferedImage.TYPE_INT_ARGB);
     }
 
     public static int mm2px(double mm, double dpi) {
@@ -56,5 +56,29 @@ public class ImgDpi {
 
     public void save(File file) throws IOException {
         ImageIO.write(image, "png", file);
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getDpi() {
+        return dpi;
+    }
+
+    public void setDpi(double dpi) {
+        this.dpi = dpi;
     }
 }

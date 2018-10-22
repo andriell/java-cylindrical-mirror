@@ -1,14 +1,20 @@
 package com.andriell.cm.gui;
 
+import com.andriell.cm.math.CylindricalMirror;
+import com.andriell.cm.shape.PlaneImage;
+import com.andriell.geometry.d3.shape.Point;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 public class MainFrame {
     private JFrame frame;
-    private JFileChooser fileChooser;
+    private JFileChooser fileChooserOpen;
+    private JFileChooser fileChooserWrite;
     private File dataFile;
 
     private JPanel rootPanel;
@@ -34,16 +40,38 @@ public class MainFrame {
         frame.setSize(280, 280);
         frame.setContentPane(rootPanel);
 
-        fileChooser = new JFileChooser();
+        fileChooserOpen = new JFileChooser();
+        fileChooserWrite = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("IMAGE FILES (*.png)", "png");
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setFileFilter(filter);
+        fileChooserOpen.setAcceptAllFileFilterUsed(false);
+        fileChooserOpen.setFileFilter(filter);
+        fileChooserWrite.setAcceptAllFileFilterUsed(false);
+        fileChooserWrite.setFileFilter(filter);
 
         buttonFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int ret = fileChooser.showOpenDialog(rootPanel);
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    dataFile = fileChooser.getSelectedFile();
+                int retOpen = fileChooserOpen.showOpenDialog(rootPanel);
+                if (retOpen == JFileChooser.APPROVE_OPTION) {
+                    int retWrite = fileChooserWrite.showSaveDialog(rootPanel);
+                    if (retWrite == JFileChooser.APPROVE_OPTION) {
+                        try {
+                            File fileWrite = fileChooserWrite.getSelectedFile();
+                            if (!fileWrite.toString().toLowerCase().endsWith(".png")) {
+                                fileWrite = new File(fileWrite.toString() + ".png");
+                            }
+                            CylindricalMirror mirror = new CylindricalMirror(new PlaneImage(fileChooserOpen.getSelectedFile()));
+                            mirror.setR((Double) spinnerR.getValue());
+                            mirror.getImgDpi().setDpi(Double.parseDouble(String.valueOf(comboBoxDpi.getSelectedItem())));
+                            mirror.getImgDpi().setWidth((Integer) spinnerW.getValue());
+                            mirror.getImgDpi().setHeight((Integer) spinnerH.getValue());
+                            double angle = (Integer) spinnerAngle.getValue();
+                            angle = (angle / 180f) * Math.PI;
+                            mirror.setPointEay(new Point(1E7 * Math.cos(angle), 0, 1E7 * Math.sin(angle)));
+                            mirror.writeImage(fileWrite);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
                 }
             }
         });
